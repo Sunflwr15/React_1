@@ -1,6 +1,8 @@
 import React from 'react';
-import Header from './component/header';
+import Heade from './component/header';
 import Tes from './component/module/tes'
+import {Button, Input} from './component/named'
+import './style/style.css'
 
 
 
@@ -10,8 +12,10 @@ function App() {
       <h1>
         Hello
       </h1>
-      <Header/>
-      <Tes/>
+      <Heade/>
+      <Input/>
+      <Button/>
+      {/* <Tes/> */}
     </React.Fragment>
    );
 }
