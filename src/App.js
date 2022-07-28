@@ -6,7 +6,7 @@ import './style/style.css'
 function App() {
   return ( 
     <React.Fragment>
-      <h1 className='typeOne'>
+      <h1>
         Hello
       </h1>
     </React.Fragment>
