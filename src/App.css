@@ -1,7 +1,11 @@
+*{
+  color: #582eff;
+}
 .center {
   height: 180px;
   padding: 25px 50px 25px 50px;
-  border: 1px solid rgb(0, 0, 0);
+  border: 1px solid #582eff;
+  background: #582eff21;
   justify-content: center;
   display: flex;
 }
@@ -9,5 +13,6 @@
   width: fit-content;
   height: 120px;
   padding: 25px 50px 25px 50px;
-  border: 1px solid rgb(0, 0, 0);
+  border: 1px solid #582eff;
+
 }

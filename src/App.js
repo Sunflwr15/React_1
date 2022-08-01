@@ -8,21 +8,28 @@ function App() {
   let [data, setData] = React.useState([100, 90, 80, 70, 60, 50]);
   let [dataSiswa, setDataSiswa] = React.useState([
     {
-      nama: "Moriarty",
+      nama: "Albert",
       kelas: "XI RPL",
       nilai: 100,
     },
     {
-      nama: "Albert",
+      nama: "James",
       kelas: "XI TKR",
       nilai: 100,
     },
     {
-      nama: "Albert",
+      nama: "Moriarty",
       kelas: "XI TKJ",
       nilai: 100,
     },
   ]);
+  let [nilaiSiswa, setNilaiSiswa] = React.useState((
+    {
+      Nama: "Gathfan",
+      Kelas: "XI RPL",
+      Nilai: [100, 100, 100, 100]
+    }
+  ))
   return (
     <React.Fragment>
       <h1>Latihan Props</h1>
@@ -38,7 +45,7 @@ function App() {
 
       <h1>Ini Komponen Data Siswa</h1>
       <section className="center">
-        <Datasiswa data={dataSiswa} />
+        <Datasiswa data={dataSiswa} nilai={nilaiSiswa}/>
       </section>
     </React.Fragment>
   );
