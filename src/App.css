@@ -1,0 +1,21 @@
+
+* {
+  color: #2eff3f;
+}
+.center {
+  height: 180px;
+  padding: 25px 50px 25px 50px;
+  border: 1px solid #582eff;
+  background: #582eff21;
+  justify-content: center;
+  display: flex;
+}
+.center1 {
+  width: fit-content;
+  height: 120px;
+  padding: 25px 50px 25px 50px;
+  border: 1px solid #582eff;
+}
+
+.layout {
+}
