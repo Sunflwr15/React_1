@@ -7,7 +7,7 @@ function App() {
   return ( 
     <React.Fragment>
       <h1>
-        Hello
+        Belajar Props
       </h1>
     </React.Fragment>
    );
