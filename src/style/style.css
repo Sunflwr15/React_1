@@ -1,11 +1,14 @@
 @import url("https://fonts.googleapis.com/css2?family=Roboto+Mono:wght@300;400;500;600&display=swap");
 * {
-  color: #6d2eff;
+  color: #582eff;
   font-family: "Roboto Mono";
   padding: 5px;
 }
-.flex{
-    display: flex;
+.center-fix {
+  position: fixed;
+  top: 50%;
+  right: 50%;
+  transform: translate(50%, -50%);
 }
 .center {
   height: fit-content;
@@ -26,7 +29,8 @@
 }
 
 .layout {
-  border: 1px solid #582eff;
+  border: 3px solid #582eff;
+  border-radius: 15px;
   margin: 10px;
   color: white;
 }
