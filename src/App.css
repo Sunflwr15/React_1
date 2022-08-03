@@ -1,9 +1,11 @@
-
+@import url("https://fonts.googleapis.com/css2?family=Roboto+Mono:wght@300;400;500;600&display=swap");
 * {
-  color: #2eff3f;
+  color: #6d2eff;
+  font-family: "Roboto Mono";
+  padding: 5px;
 }
 .center {
-  height: 180px;
+  height: fit-content;
   padding: 25px 50px 25px 50px;
   border: 1px solid #582eff;
   background: #582eff21;
@@ -12,10 +14,33 @@
 }
 .center1 {
   width: fit-content;
-  height: 120px;
+  height: fit-content;
   padding: 25px 50px 25px 50px;
   border: 1px solid #582eff;
+
+}
+.text-center{
+    text-align: center;
 }
 
-.layout {
+.layout{
+    border:1px solid #582eff;
+    margin: 10px;
+}
+
+/* Additional */
+
+.button-red{
+  background-color: crimson;
+  color: white;
+  padding: 5px 10px;
+  border: 1px border crimson;
+}
+
+.button-blue{
+  background-color: cornflowerblue;
+  color: white;
+  padding: 5px 10px;
+  border: 1px border cornflowerblue;
+  cursor: crosshair;
 }

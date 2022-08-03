@@ -3,7 +3,7 @@ import React from "react";
 function Layout({ children, title }) {
   return (
     <div className="layout text-center">
-      <h3>Ini Adalah Layout</h3>
+      <h3>{title}</h3>
       {children}
     </div>
   );
