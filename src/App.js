@@ -35,8 +35,8 @@ function App() {
   ]);
   return (
     <React.Fragment>
-      <h1>Latihan 1</h1>
-      <Tampilan list = {produk}/>
+      <h1 className="center">Latihan 1</h1>
+      <Tampilan list = {produk} />
     </React.Fragment>
   );
 }
