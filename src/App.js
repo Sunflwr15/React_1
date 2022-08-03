@@ -1,6 +1,6 @@
 import React from "react";
 import Layout from "./module/layout";
-import Button from './module/button'
+import Button from "./module/button";
 import "./style/style.css";
 
 function App() {
@@ -17,9 +17,24 @@ function App() {
         <h1>SMK 01</h1>
       </Layout>
       {/* <Layout /> */}
-      <Button title={'Simpan'}/>
-      <Button title={'Batal'}/>
-
+      <div className="flex">
+        <Button
+          onClick={() => {
+            console.log("Starting...");
+          }}
+          title={"Simpan"}
+          color={"#582eff"}
+        />
+        <Button
+          onClick={() => {
+            console.log("Canceling...");
+          }}
+          disabled
+          title={"Batal"}
+          color={"crimson"}
+        />
+        <Button title={"Update"} color={"crimson"} />
+      </div>
     </React.Fragment>
   );
 }

@@ -3,7 +3,9 @@
   color: #6d2eff;
   font-family: "Roboto Mono";
   padding: 5px;
-
+}
+.flex{
+    display: flex;
 }
 .center {
   height: fit-content;
@@ -18,26 +20,24 @@
   height: fit-content;
   padding: 25px 50px 25px 50px;
   border: 1px solid #582eff;
-
 }
-.text-center{
-    text-align: center;
+.text-center {
+  text-align: center;
 }
 
-.layout{
-    border:1px solid #582eff;
-    margin: 10px;
-    color: white;
+.layout {
+  border: 1px solid #582eff;
+  margin: 10px;
+  color: white;
 }
 
 /* Additional */
 
-.button{
-  background-color: crimson;
+.button {
+  border: none;
+  border-radius: 15px;
   color: white;
-  padding: 5px 10px;
-  border: 1px border crimson;
-  width: 200px;
-  cursor: progress;
-
+  padding: 15px;
+  width: 100%;
+  cursor: pointer;
 }
