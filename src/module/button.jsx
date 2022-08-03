@@ -1,6 +1,6 @@
 import React from "react";
 
-function Button({ title, color, onClick, ...props }) {
+function Button({ title, color, ...props }) {
   return (
     <div>
       <button

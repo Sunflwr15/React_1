@@ -29,7 +29,6 @@ function App() {
           onClick={() => {
             console.log("Canceling...");
           }}
-          disabled
           title={"Batal"}
           color={"crimson"}
         />
