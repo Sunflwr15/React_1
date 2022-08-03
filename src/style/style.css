@@ -1,6 +1,22 @@
-.input{
-    background: wheat;
-    border: 2px solid black;
-    padding: 10px 30px;
+@import url("https://fonts.googleapis.com/css2?family=Roboto+Mono:wght@300;400;500;600&display=swap");
+* {
+  color: #6d2eff;
+  font-family: "Roboto Mono";
+  padding: 5px;
+}
+.center {
+  height: 180px;
+  padding: 25px 50px 25px 50px;
+  border: 1px solid #582eff;
+  background: #582eff21;
+  justify-content: center;
+  display: flex;
+}
+.text-center{
+    text-align: center;
+}
 
+.layout{
+    border:1px solid #582eff;
+    margin: 10px;
 }
