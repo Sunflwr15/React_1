@@ -39,7 +39,7 @@ function App() {
   let [confirmPassword, setConfirmPassword] = React.useState("");
   return (
     <React.Fragment>
-      <form className="center-fix">Tes</form>
+      <form className="center-fix"></form>
     </React.Fragment>
   );
 }
