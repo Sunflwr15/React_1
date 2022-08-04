@@ -2,13 +2,12 @@ import React from "react";
 
 function Button({ title, color = "light gray", disabled, ...props }) {
   return (
-    <div>
+    <div className="center-flex">
       <button
         disabled={disabled}
         {...props}
         style={{
           backgroundColor: color,
-          opacity: disabled ? 0.3 : 1,
         }}
         className="button"
       >
