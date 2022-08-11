@@ -1,5 +1,7 @@
 import React from "react";
 // import Layout from "./module/layout";
+
+import Card from "./module/card";
 import Button from "./module/button";
 import Input from "./module/input";
 import "./style/style.css";
@@ -11,7 +13,7 @@ import "./style/style.css";
 //   };
 //   const handleKurang = () => {
 //     setCount(count - 1);
-//   };
+//   };-=
 //   const Reset = () => {
 //     setCount(0)
 //   }
@@ -40,69 +42,97 @@ function App() {
     password: "",
     confirmPassword: "",
   });
-  const handleChange = (e) => {
-    console.log("Ok Siap Jalan");
+  const [data, setData] = React.useState([]);
+  const [error, setError] = React.useState({});
+  const handleSubmit = (e) => {
     e.preventDefault();
-    setValues(() => {
+    console.log("Submit");
+    values.id = new Date().getTime()
+    setData((data) => {
+      return [...data, values];
+    });
+    setValues((values) => {
+      return {
+        username: "",
+        email: "",
+        password: "",
+        confirmPassword: "",
+      };
+    });
+  };
+  const handleBlur = (e) => {
+    e.preventDefault();
+    if (e.target.value === "") {
+      setError((errors) => {
+        return {
+          ...errors,
+          [e.target.name]: true,
+        };
+      });
+    }else{
+      setError((errors) => {
+        return {
+          ...errors,
+          [e.target.name]: false,
+        }
+      })
+    }
+  };
+  const handleChange = (e) => {
+    setValues((values) => {
       return {
         ...values,
         [e.target.name]: e.target.value,
       };
     });
   };
+  console.log("error", error);
   return (
     <React.Fragment>
       <div className="center-flex">
         <div className="center1">
-          <div>
+          <form onSubmit={handleSubmit}>
             <Input
+              isError={error?.username}
               name="username"
               label={"Username"}
               placeholder={"John Doe"}
               value={values.username}
-              onChange={(event) => {
-                event.preventDefault();
-                setValues((values) => {
-                  return {
-                    ...values,
-                    username: event.target.value,
-                  };
-                });
-              }}
+              onChange={handleChange}
+              onBlur={handleBlur}
             />
             <Input
+              isError={error?.email}
               name="email"
               label={"Email"}
               placeholder={"@mail.com"}
               value={values.email}
               onChange={handleChange}
+              onBlur={handleBlur}
             />
             <Input
+              isError={error?.password}
               name="password"
               label={"Password"}
               placeholder={"Password"}
               value={values.password}
               onChange={handleChange}
+              onBlur={handleBlur}
             />
             <Input
+              isError={error?.confirmPassword}
               name="confirmPassword"
               label={"Confirm Password"}
               placeholder={"Confirm Password"}
               value={values.confirmPassword}
               onChange={handleChange}
+              onBlur={handleBlur}
             />
             <Button title={"Submit"} color={"#151515"} />
-          </div>
+          </form>
         </div>
-        <div
-          style={{
-            margin: "0px 0px 0px 30px",
-          }}
-        >
-          <h4>Username: {values?.username}</h4>
-          <h4>Email: {values?.email}</h4>
-          <h4>Password: {values?.password}</h4>
-          <h4>Confirm Password: {values?.confirmPassword}</h4>
+        <div className="pad scroll view">
+          <Card data={data} setData={setData}/>
         </div>
       </div>
     </React.Fragment>
