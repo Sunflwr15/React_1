@@ -124,6 +124,36 @@ function App() {
       e.preventDefault();
       setPassword("")
     }
+    else if (values.username === "") {
+      e.preventDefault();
+      setForm("")
+    }
+    else if (values.email === "") {
+      e.preventDefault();
+      setForm("")
+
+    }
+    else if (values.password === "") {
+      e.preventDefault();
+      setForm("")
+    }
+    else if (values.confirmPassword === "") {
+      e.preventDefault();
+      setForm("")
+
+    }
+    else if (values.tempatLahir === "") {
+      e.preventDefault();
+      setForm("")
+    }
+    else if (values.tempatTanggalLahir === "") {
+      e.preventDefault();
+      setForm("")
+    }
+    else if (values.jenisKelamin === "") {
+      e.preventDefault();
+      setForm("")
+    }
     setValues((values) => {
       return {
         ...values,
