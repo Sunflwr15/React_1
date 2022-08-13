@@ -6,8 +6,8 @@ function Input({ label, isError = false, textError, ...props }) {
       <form className="center-flex form">
         <div className="flex flex-column">
           <label htmlFor={label}>{label}</label>
-          <input {...props} id={label} type={"text"}></input>
-          {isError && <p className="error"></p>}
+          <input {...props} id={label}></input>
+          {isError && <p className="error">{label} Required</p>}
         </div>
       </form>
     </React.Fragment>

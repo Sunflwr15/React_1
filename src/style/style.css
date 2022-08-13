@@ -83,6 +83,14 @@ input{
   background-color: transparent;
 }
 
+select{
+  border: 0px solid #582eff;
+  border-bottom: 1px solid #151515;
+  width: 270px;
+  color: black;
+  padding: 10px;
+  background-color: transparent;
+}
 .error{
   color: crimson;
   font-style: italic;

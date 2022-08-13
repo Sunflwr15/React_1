@@ -1,60 +1,98 @@
 import React from "react";
-// import Layout from "./module/layout";
-
+import Select from "./module/select";
 import Card from "./module/card";
 import Button from "./module/button";
 import Input from "./module/input";
 import "./style/style.css";
 
-// function Appp() {
-//   let [count, setCount] = React.useState(0);
-//   const handleTambah = () => {
-//     setCount(count + 1);
-//   };
-//   const handleKurang = () => {
-//     setCount(count - 1);
-//   };-=
-//   const Reset = () => {
-//     setCount(0)
-//   }
-//   return (
-//     <React.Fragment>
-//       <div className="center-fix layout">
-//         <h1>Count = {count}</h1>
-//         <Button onClick={handleTambah} title={"Tambah"} color={"#582eff"} />
-//         <Button disabled={count <= 0 ? true : false} onClick={handleKurang} title={"Kurang"} color={"Crimson"} />
-//         <Button
-//         disabled={count === 0 ? true : false}
-//           onClick={Reset}
-//           title={"Reset"}
-//         />
-//       </div>
-//     </React.Fragment>
-//   );
-// }
-
-// export default ;
-
 function App() {
   const [values, setValues] = React.useState({
     username: "",
     email: "",
+    tempatLahir: "",
+    tempatTanggalLahir: "",
+    jenisKelamin: "",
     password: "",
     confirmPassword: "",
   });
   const [data, setData] = React.useState([]);
   const [error, setError] = React.useState({});
+  const [password, setPassword] = React.useState("");
+  const [form, setForm] = React.useState("")
+  const handlePassword = (e) => {
+    const password = values.password;
+    const confirmPassword = values.confirmPassword;
+    if (password !== confirmPassword) {
+      e.preventDefault();
+      alert("Password doesn't match");
+      setPassword("Password Doesn't Match")
+    }
+    else if (values.username === "") {
+      e.preventDefault();
+      alert("There's Empty Form");
+      setForm("Form is empty")
+    }
+    else if (values.email === "") {
+      e.preventDefault();
+      alert("There's Empty Form");
+      setForm("Form is empty")
+
+    }
+    else if (values.password === "") {
+      e.preventDefault();
+      setForm("Form is empty")
+      alert("There's Empty Form");
+    }
+    else if (values.confirmPassword === "") {
+      e.preventDefault();
+      alert("There's Empty Form");
+      setForm("Form is empty")
+
+    }
+    else if (values.tempatLahir === "") {
+      e.preventDefault();
+      setForm("Form is empty")
+      alert("There's Empty Form");
+    }
+    else if (values.tempatTanggalLahir === "") {
+      e.preventDefault();
+      setForm("Form is empty")
+      alert("There's Empty Form");
+    }
+    else if (values.jenisKelamin === "") {
+      e.preventDefault();
+      setForm("Form is empty")
+      alert("There's Empty Form");
+    }
+  };
   const handleSubmit = (e) => {
     e.preventDefault();
     console.log("Submit");
-    values.id = new Date().getTime()
-    setData((data) => {
-      return [...data, values];
-    });
+    values.id = new Date().getTime();
     setValues((values) => {
       return {
         username: "",
         email: "",
+        tempatLahir: "",
+        tempatTanggalLahir: "",
+        jenisKelamin: "",
+        password: "",
+        confirmPassword: "",
+      };
+    });
+    setData((data) => {
+      return [...data, values];
+    });
+  };
+  const handleReset = (e) => {
+    e.preventDefault();
+    setValues((values) => {
+      return {
+        username: "",
+        email: "",
+        tempatLahir: "",
+        tempatTanggalLahir: "",
+        jenisKelamin: "",
         password: "",
         confirmPassword: "",
       };
@@ -62,6 +100,7 @@ function App() {
   };
   const handleBlur = (e) => {
     e.preventDefault();
+
     if (e.target.value === "") {
       setError((errors) => {
         return {
@@ -69,16 +108,22 @@ function App() {
           [e.target.name]: true,
         };
       });
-    }else{
+    } else {
       setError((errors) => {
         return {
           ...errors,
           [e.target.name]: false,
-        }
-      })
+        };
+      });
     }
   };
   const handleChange = (e) => {
+    const password = values.password;
+    const confirmPassword = values.confirmPassword;
+    if (password !== confirmPassword) {
+      e.preventDefault();
+      setPassword("")
+    }
     setValues((values) => {
       return {
         ...values,
@@ -91,7 +136,8 @@ function App() {
     <React.Fragment>
       <div className="center-flex">
         <div className="center1">
-          <form onSubmit={handleSubmit}>
+          <form onSubmit={handleSubmit} isError={error?.form}>
+            <p className="error">{form}</p>
             <Input
               isError={error?.username}
               name="username"
@@ -111,6 +157,39 @@ function App() {
               onBlur={handleBlur}
             />
             <Input
+              isError={error?.tempatLahir}
+              name="tempatLahir"
+              label={"Birth Place"}
+              placeholder={"Birth Place"}
+              value={values.tempatLahir}
+              onChange={handleChange}
+              onBlur={handleBlur}
+            />
+            <Input
+              isError={error?.tempatTanggalLahir}
+              name="tempatTanggalLahir"
+              label={"Birthday"}
+              placeholder={""}
+              value={values.tempatTanggalLahir}
+              onChange={handleChange}
+              onBlur={handleBlur}
+              type={"date"}
+            />
+            <Select
+              isError={error?.jenisKelamin}
+              name="jenisKelamin"
+              label={"Gender"}
+              placeholder={"@mail.com"}
+              value={values.jenisKelamin}
+              onChange={handleChange}
+              onBlur={handleBlur}
+            >
+              <option value={"None"}>None</option>
+              <option value={"Laki-laki"}>Laki-laki</option>
+              <option value={"Perempuan"}>Perempuan</option>
+            </Select>
+            <Input
+              error={password?.password}
               isError={error?.password}
               name="password"
               label={"Password"}
@@ -120,6 +199,7 @@ function App() {
               onBlur={handleBlur}
             />
             <Input
+              error={password?.confirmPassword}
               isError={error?.confirmPassword}
               name="confirmPassword"
               label={"Confirm Password"}
@@ -128,11 +208,22 @@ function App() {
               onChange={handleChange}
               onBlur={handleBlur}
             />
-            <Button title={"Submit"} color={"#151515"} />
+            <p className="error">{password}</p>
+            <Button
+              title={"Submit"}
+              color={"#151515"}
+              onClick={handlePassword}
+            />
+            <Button title={"Reset"} color={"#151515"} onClick={handleReset} />
           </form>
         </div>
         <div className="pad scroll view">
-          <Card data={data} setData={setData}/>
+          <Card
+            data={data}
+            setData={setData}
+            values={values}
+            setValues={setValues}
+          />
         </div>
       </div>
     </React.Fragment>
