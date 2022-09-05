@@ -23,7 +23,7 @@ function Detail() {
         </NavLink>
       </section>
       <p className="text-3xl text-violet-600 font-bold">Detail {id}</p>
-      <button onClick={handleChange}>Home</button>
+      <button onClick={handleChange} className="bg-violet-500 p-3 rounded-xl text-white">Home</button>
     </div>
   );
 }
