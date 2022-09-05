@@ -11,11 +11,11 @@ function Login() {
     return navigate("admin/dashboard", { replace: true });
   };
   return (
-    <div>
-      <h1>Login Page</h1>
-      <div className="flex space-x-5">
-        <Button onClick={handleRegister} title="Register"/>
-        <Button onClick={handleLogin} title="Login"/>
+    <div className="">
+      <div className="space-x-5">
+        <Button onClick={handleLogin} title="Login" />
+        {""}
+        <Button onClick={handleRegister} title="Register" />
       </div>
     </div>
   );

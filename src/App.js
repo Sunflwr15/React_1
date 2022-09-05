@@ -11,18 +11,20 @@ import UserDetail from "./pages/admin/userDetail";
 function App() {
   return (
     <React.Fragment>
-      <Routes>
-        <Route path="/" element={<Login />}></Route>
-        <Route path="login" element={<Login />}></Route>
-        <Route path="register" element={<Register />}></Route>
-        <Route path="admin" element={<Admin />}>
-          <Route path="dashboard" element={<Dashboard />} />
-          <Route path="kelas" element={<Kelas />} />
-          <Route path="user" element={<User />} />
-          <Route path="user/:id/:kelas" element={<UserDetail />} />
-        </Route>
-        {/* <Route path="*" element={<Navigate to="/" replace />}></Route> */}
-      </Routes>
+      <div className="p-5 h-screen w-screen flex">
+        <Routes>
+          <Route path="/" element={<Login />}></Route>
+          <Route path="login" element={<Login />}></Route>
+          <Route path="register" element={<Register />}></Route>
+          <Route path="admin" element={<Admin />}>
+            <Route path="dashboard" element={<Dashboard />} />
+            <Route path="kelas" element={<Kelas />} />
+            <Route path="user" element={<User />} />
+            <Route path="user/:id/:kelas" element={<UserDetail />} />
+          </Route>
+          <Route path="*" element={<Navigate to="/" replace />}></Route>
+        </Routes>
+      </div>
     </React.Fragment>
   );
 }
