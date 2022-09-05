@@ -4,23 +4,23 @@ import { NavLink, useParams, useLocation } from "react-router-dom";
 export default function User() {
   const [user, setUser] = React.useState([
     {
-      name: "akbar",
+      name: "Akbar",
       kelas: "XI RPL",
     },
     {
-      name: "bayu",
+      name: "Bayu",
       kelas: "XI RPL",
     },
     {
-      name: "hilmi",
+      name: "Hilmi",
       kelas: "XI RPL",
     },
     {
-      name: "nabil",
+      name: "Gathfan",
       kelas: "XI RPL",
     },
     {
-      name: "rauza",
+      name: "Rauza",
       kelas: "XI TKJ",
     },
   ]);

@@ -11,8 +11,8 @@ const handleBack = () => {
   return (
     <div>
       <h1>User Detail </h1>
-      <div className="mt-5">Nama :{id}</div>
-      <div>Kelas :{kelas}</div>
+      <div className="mt-5">Nama : {id}</div>
+      <div>Kelas : {kelas}</div>
       
       <Button onClick={handleBack} title="Kembali ke Halaman User"/>
     </div>
