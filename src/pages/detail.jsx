@@ -1,6 +1,10 @@
-import { useParams, NavLink } from "react-router-dom";
+import { useParams, NavLink, useNavigate } from "react-router-dom";
 function Detail() {
   let { id } = useParams();
+  const navigate = useNavigate();
+  const handleChange = () => {
+    return navigate("/", {replace: true})
+};
 
   return (
     <div>
@@ -19,6 +23,7 @@ function Detail() {
         </NavLink>
       </section>
       <p className="text-3xl text-violet-600 font-bold">Detail {id}</p>
+      <button onClick={handleChange}>Home</button>
     </div>
   );
 }
