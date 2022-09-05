@@ -1,4 +1,5 @@
 import React from "react";
+import { NavLink, useParams, useLocation } from "react-router-dom";
 
 export default function User() {
   const [user, setUser] = React.useState([
@@ -26,7 +27,15 @@ export default function User() {
   return (
     <div>
       <h1>User Page</h1>
-      <div className="flex flex-col"></div>
+      <div className="flex flex-col">
+      {user?.map((item) => {
+            return (
+              <div>
+                <NavLink to={`${item.name}/${item.kelas}`}>{item.name}</NavLink>
+              </div>
+            );
+          })}
+      </div>
     </div>
   );
 }

@@ -1,5 +1,5 @@
-export default function Button({title}){
+export default function Button({title, ...props}){
     return (
-        <button className="bg-green-500 text-white px-3 py-1 rounded-lg">{title}</button>
+        <button className="bg-violet-500 text-white px-3 py-1 rounded-lg" {...props}>{title}</button>
     )
 }
