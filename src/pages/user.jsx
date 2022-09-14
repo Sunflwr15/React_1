@@ -1,7 +1,7 @@
 import React from "react";
 import axios from "axios";
 import Button from "./components/Button";
-import { NavLink } from "react-router-dom";
+import { Navigate, NavLink, useNavigate } from "react-router-dom";
 
 const User = () => {
   const [users, setUsers] = React.useState([]);
@@ -22,57 +22,94 @@ const User = () => {
   React.useEffect(() => {
     getUserHandle();
   }, [page]);
+  const navigate = useNavigate();
 
   console.log("Users =>", users);
   console.log("Page =>", page);
   return (
     <section>
-      <div className="flex flex-row justify-evenly py-5">
-        <h1>Table User</h1>
-        <NavLink to={"/register"} className={`border border-black p-2 px-5`}>
-          Tambah User
-        </NavLink>
+      <div className="flex flex-row justify-between p-5">
+        <h1 className="p-2 font-bold">Table User</h1>
+        <div className="flex space-x-3">
+          <NavLink
+            to={"/register"}
+            className={`border border-black p-2 px-5 self-center`}
+          >
+            Add User
+          </NavLink>
+          <NavLink
+            to={"/user/update/:id"}
+            className={`border border-black p-2 px-5 self-center`}
+          >
+            Update User
+          </NavLink>
+        </div>
       </div>
 
-      <table className="table-auto w-screen">
-        <thead>
-          <tr className="border">
-            <th className="py-3">No</th>
-            <th>ID</th>
-            <th>Email</th>
-            <th>Name</th>
-            <th>Userame</th>
-            <th>Gender</th>
-          </tr>
-        </thead>
-        <tbody>
-          {users.map((item, index) => {
-            return (
-              <tr key={index} className="border text-center ">
-                <td className="p-3">{index + 1}</td>
-                <td>{item.id}</td>
-                <td>{item.email}</td>
-                <td>{item.name}</td>
-                <td>{item.username}</td>
-                <td>{item.jenis_kelamin}</td>
-              </tr>
-            );
-          })}
-        </tbody>
-      </table>
+      <section className="w-screen flex justify-center">
+        <table className="table-auto w-[1100px]">
+          <thead>
+            <tr className="border border-black">
+              <th className="py-3">No</th>
+              <th>ID</th>
+              <th>Email</th>
+              <th>Name</th>
+              <th>Username</th>
+              <th>Gender</th>
+              <th>Detail</th>
+            </tr>
+          </thead>
+          <tbody>
+            {users.map((item, index) => {
+              return (
+                <tr key={index} className="border border-black text-center ">
+                  <td className="p-3">{index + 1}</td>
+                  <td>{item.id}</td>
+                  <td>{item.email}</td>
+                  <td>{item.name}</td>
+                  <td>{item.username}</td>
+                  <td>
+                    {item.jenis_kelamin}
+                    {users.id}
+                  </td>
+                  <td>
+                    <Button
+                      title="Edit"
+                      onClick={() => {
+                        return navigate(`/user/update/${item.id}`, {
+                          replace: true,
+                        });
+                      }}
+                    />
+                    <Button
+                      title="Delete"
+                      add="text-white bg-red-600 hover:bg-red-800"
+                      onClick={() => {
+                        return navigate(`/user/update/${item.id}`, {
+                          replace: true,
+                        });
+                      }}
+                    />
+                  </td>
+                </tr>
+              );
+            })}
+          </tbody>
+        </table>
+      </section>
 
-      <p>Saat ini page {page}</p>
-      <div className="flex flex-row space-x-5 w-screen justify-center">
+      <p className="text-center m-3">Current Page {page}</p>
+      <div className="flex flex-row space-x-5 w-screen justify-center m-2">
         <Button
           title="Previous"
           onClick={() => {
-            setPage(+1);
+            setPage(-1);
           }}
         />
         <Button
           title="Next"
           onClick={() => {
-            setPage(-1);
+            setPage(+1);
           }}
         />
       </div>
