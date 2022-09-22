@@ -1,9 +1,12 @@
-import React from 'react'
+import React from "react";
+import { Outlet } from "react-router-dom";
 
 function Userdetail() {
   return (
-    <div>Userdetail</div>
-  )
+    <div>
+      <Outlet />
+    </div>
+  );
 }
 
-export default Userdetail
+export default Userdetail;

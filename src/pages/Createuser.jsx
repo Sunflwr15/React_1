@@ -1,4 +1,5 @@
 import React from "react";
+import Swal from "sweetalert2";
 import Input from "../module/input";
 import Button from "./components/Button";
 import Select from "../module/select";
@@ -9,12 +10,13 @@ function Createuser() {
   const navigate = useNavigate();
   const [isLoading, setIsLoading] = React.useState(false);
   const [users, setUser] = React.useState({
-    username: "",
-    email: "",
-    name: "",
-    jenis_kelamin: "",
-    password: "",
-    password_confirmation: "",
+    kode_penulis: "10102",
+    judul_buku: "",
+    nama_pengarang: "",
+    nama_penerbit_buku: "",
+    ketebalan_buku: "",
+    tahun_terbit_buku: 2004,
+    sinopsis: "",
   });
 
   const handleChange = (e) => {
@@ -30,23 +32,54 @@ function Createuser() {
     try {
       setIsLoading(true);
       const response = await axios.post(
-        "https://belajar-react.smkmadinatulquran.sch.id/api/users/create",
+        "https://api-react-2.herokuapp.com/api/perpustakaan",
         users
       );
       setIsLoading(false);
-      alert("Success Creating User")
-      return navigate("/users");
+      const Toast = Swal.mixin({
+        toast: true,
+        position: "top-end",
+        showConfirmButton: false,
+        timer: 2000,
+        timerProgressBar: true,
+        didOpen: (toast) => {
+          toast.addEventListener("mouseenter", Swal.stopTimer);
+          toast.addEventListener("mouseleave", Swal.resumeTimer);
+        },
+      });
+
+      Toast.fire({
+        icon: "success",
+        title: "Success Adding New Book",
+      });
+      return navigate("/Admin/Books");
     } catch (err) {
       console.log(err);
-      alert("Failed Creating User");
+      const Toast = Swal.mixin({
+        toast: true,
+        position: "top-end",
+        showConfirmButton: false,
+        timer: 2000,
+        timerProgressBar: true,
+        didOpen: (toast) => {
+          toast.addEventListener("mouseenter", Swal.stopTimer);
+          toast.addEventListener("mouseleave", Swal.resumeTimer);
+        },
+      });
+
+      Toast.fire({
+        icon: "error",
+        title: "Failed Adding New Book",
+      });
       setIsLoading(false);
       setUser({
-        username: "",
-        email: "",
-        name: "",
-        jenis_kelamin: "",
-        password: "",
-        password_confirmation: "",
+        kode_penulis: "10102",
+        judul_buku: "",
+        nama_pengarang: "",
+        nama_penerbit_buku: "",
+        ketebalan_buku: "",
+        tahun_terbit_buku: 2004,
+        sinopsis: "",
       });
     }
   };
@@ -58,82 +91,92 @@ function Createuser() {
           onSubmit={handleSubmit}
           className="mt-5 space-y-5 w-[400px] h-[510px] border border-black p-5"
         >
-          <div className="flex space-x-2 w-full space-between">
+          <div className="flex flex-row space-between space-x-[45px]">
             <Input
               onChange={handleChange}
-              value={users.name}
+              value={users.nama_pengarang}
               isError={""}
               label="Name"
               type="text"
-              name="name"
+              name="nama_pengarang"
               id="name"
               placeholder="Name"
             />
             <Input
               onChange={handleChange}
-              value={users.username}
+              value={users.nama_penerbit_buku}
               isError={""}
-              label="Username"
+              label="Publisher"
               type="text"
-              name="username"
-              id="username"
-              placeholder="Username"
+              name="nama_penerbit_buku"
+              id="Publisher"
+              placeholder="Publisher"
             />
           </div>
           <div>
             <Input
               onChange={handleChange}
-              value={users.email}
+              value={users.judul_buku}
               isError={""}
-              label="Email"
-              type="email"
-              name="email"
-              id="email"
-              placeholder="Email"
-            />
-          </div>
-          <div>
-            <Select
-              onChange={handleChange}
-              value={users.jenis_kelamin}
-              isError={""}
-              label="Gender"
-              name="jenis_kelamin"
-              id="jenis_kelamin"
-              placeholder="Email"
-            >
-              <option value="none">Pilih Kelamin</option>
-              <option value={"laki-laki"}>Laki-Laki</option>
-              <option value={"perempuan"}>Perempuan</option>
-            </Select>
-          </div>
-          <div>
-            <Input
-              onChange={handleChange}
-              value={users.password}
-              isError={""}
-              label="Password"
-              type="password"
-              name="password"
-              id="password"
-              placeholder="Password"
+              label="Book Thickness"
+              type="text"
+              name="judul_buku"
+              id="Book Title"
+              placeholder="Book Title"
             />
           </div>
           <div>
             <Input
               onChange={handleChange}
-              value={users.password_confirmation}
+              value={users.ketebalan_buku}
               isError={""}
-              label="Confirm Password"
-              type="password"
-              name="password_confirmation"
-              id="confirmPassword"
-              placeholder="Confirm Password"
+              label="Book Thickness"
+              type="text"
+              name="ketebalan_buku"
+              id="BookThickness"
+              placeholder="BookThickness"
             />
+          </div>
+          <div>
+            <Input
+              onChange={handleChange}
+              value={users.sinopsis}
+              isError={""}
+              label="Sinopsis"
+              type="text"
+              name="sinopsis"
+              id="Sinopsis"
+              placeholder="Sinopsis"
+            />
+          </div>
+          <div className="flex flex-row space-between space-x-[45px]">
+              <Input
+                onChange={handleChange}
+                value={users.tahun_terbit_buku}
+                isError={""}
+                label="Year Published"
+                type="number"
+                name="tahun_terbit_buku"
+                id="tahun_terbit_buku"
+                placeholder="Year Published"
+              />
+              <Input
+                onChange={handleChange}
+                value={users.kode_penulis}
+                isError={""}
+                label="Author Code"
+                type="number"
+                name="kode_penulis"
+                id="AuthorCode"
+                placeholder="AuthorCode"
+              />
           </div>
 
           <div className="flex flex-row justify-between">
-            <NavLink to="/user" className={`border border-black p-2 px-5`}>
+            <NavLink
+              to="/Admin/Books"
+              className={`border border-black p-2 px-5`}
+            >
               Cancel
             </NavLink>
             <Button
