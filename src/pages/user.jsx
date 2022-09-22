@@ -1,11 +1,13 @@
 import React from "react";
 import axios from "axios";
 import Button from "./components/Button";
+import Card from "../module/card";
 import { Navigate, NavLink, Outlet, useNavigate } from "react-router-dom";
 
 const User = () => {
   const [users, setUsers] = React.useState([]);
   const [page, setPage] = React.useState(10);
+  const [isLoading, setIsLoading] = React.useState(false);
 
   const getUserHandle = async () => {
     try {
@@ -18,6 +20,17 @@ const User = () => {
       setPage(response.data.page);
     } catch (err) {}
   };
+  const getUserDelete = async (id) => {
+    try {
+      setIsLoading(true);
+      const response = await axios.delete(
+        `https://api-react-2.herokuapp.com/api/perpustakaan/${id}?kode=10102`
+      );
+      getUserHandle();
+      setIsLoading(false);
+      console.log(response.data.data.data);
+    } catch (err) {}
+  };
 
   React.useEffect(() => {
     getUserHandle();
@@ -28,67 +41,48 @@ const User = () => {
   console.log("Page =>", page);
   return (
     <section>
-      <div className="flex flex-row justify-between p-5">
-        <h1 className="p-2 font-bold">Table User</h1>
+      <div className="flex flex-row justify-between py-3">
+        <h1 className="font-bold place-self-center">Table User</h1>
         <div className="flex space-x-3">
-          <NavLink
-            to={"/Admin/Books/Add"}
-            className={`border border-black p-2 px-5 self-center`}
+          <Button
+            onClick={() => {
+              return navigate(`/Admin/Books/Add`, {
+                replace: true,
+              });
+            }}
+            title="Add Book"
           >
             Add User
-          </NavLink>
+          </Button>
         </div>
       </div>
 
       <section className="w-full flex justify-center">
-        <table className="table-auto w-full">
-          <thead>
-            <tr className="border border-black">
-              <th className="py-3">No</th>
-              <th>ID</th>
-              <th>Writer Code</th>
-              <th>Book Title</th>
-              <th>Author</th>
-              <th>Thickness</th>
-              <th>Sinopsis</th>
-              <th>Published</th>
-            </tr>
-          </thead>
-          <tbody>
-            {users.map((users, index) => {
-              return (
-                <tr className="border border-black text-center ">
-                  <td>{users.id}</td>
-                  <td>{users.kode_penulis}</td>
-                  <td>{users.judul_buku}</td>
-                  <td>{users.nama_pengarang}</td>
-                  <td>{users.ketebalan_buku}</td>
-                  <td>{users.sinopsis}</td>
-                  <td>{users.tahun_terbit_buku}</td>
-                  <td>
-                    <Button
-                      title="Edit"
-                      onClick={() => {
-                        return navigate(`/Admin/Books/:id/update`, {
-                          replace: true,
-                        });
-                      }}
-                    />
-                    <Button
-                      title="Delete"
-                      add="text-white bg-red-600 hover:bg-red-800"
-                      onClick={() => {
-                        return navigate(`/Admin/Books/:id/update`, {
-                          replace: true,
-                        });
-                      }}
-                    />
-                  </td>
-                </tr>
-              );
-            })}
-          </tbody>
-        </table>
+        <Card>
+          <Button
+            title="Edit"
+            onClick={() => {
+              return navigate(`/Admin/Books/${users.id}/update`, {
+                replace: true,
+              });
+            }}
+          />
+          <Button
+            title="Book Detail"
+            add=""
+            onClick={() => {
+              return navigate(`/Admin/Books/${users.id}/view`, {
+                replace: true,
+              });
+            }}
+          />
+          <Button
+            onClick={() => {
+              getUserDelete(users.id);
+            }}
+            title={isLoading ? "Deleting" : "Delete"}
+          ></Button>
+        </Card>
       </section>
     </section>
   );

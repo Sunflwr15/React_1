@@ -1,9 +1,11 @@
-import React from 'react'
+import React from "react";
 
 function Dashboard() {
   return (
-    <div>Dashboard</div>
-  )
+    <div className="h-screen flex place-items-center justify-center">
+      <p className="text-xl">Dashboard</p>
+    </div>
+  );
 }
 
-export default Dashboard
+export default Dashboard;

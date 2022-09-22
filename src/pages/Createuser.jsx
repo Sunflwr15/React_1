@@ -4,9 +4,10 @@ import Input from "../module/input";
 import Button from "./components/Button";
 import Select from "../module/select";
 import axios from "axios";
-import { NavLink, useNavigate } from "react-router-dom";
+import { NavLink, useNavigate, useParams } from "react-router-dom";
 
 function Createuser() {
+  const { id } = useParams();
   const navigate = useNavigate();
   const [isLoading, setIsLoading] = React.useState(false);
   const [users, setUser] = React.useState({
@@ -15,7 +16,7 @@ function Createuser() {
     nama_pengarang: "",
     nama_penerbit_buku: "",
     ketebalan_buku: "",
-    tahun_terbit_buku: 2004,
+    tahun_terbit_buku: parseInt(),
     sinopsis: "",
   });
 
@@ -25,14 +26,86 @@ function Createuser() {
     });
     console.log("tes");
   };
-
+  const [errorForm, setErrorForm] = React.useState("");
+  const [error, setError] = React.useState({});
+  const [errorSin, setErrorSin] = React.useState("");
   const handleSubmit = async (e) => {
     e.preventDefault();
     console.log(users);
+    if (users.sinopsis.length <= 10) {
+      setErrorSin("Sinopsis harus berisikan minimal 30 karater");
+    } else {
+      setErrorSin("");
+    }
+
+    if (
+      users.judul_buku === "" ||
+      users.ketebalan_buku === "" ||
+      users.nama_penerbit_buku === "" ||
+      users.nama_pengarang === "" ||
+      users.sinopsis === "" ||
+      users.tahun_terbit_buku < 2000 ||
+      users.tahun_terbit_buku > 2022
+    ) {
+      setErrorForm("There's Empty Form");
+      if (users.ketebalan_buku === "") {
+        setError((errors) => {
+          return {
+            ...errors,
+            ketebalan_buku: true,
+          };
+        });
+      }
+      if (users.judul_buku === "") {
+        setError((errors) => {
+          return {
+            ...errors,
+            judul_buku: true,
+          };
+        });
+      }
+      if (users.nama_penerbit_buku === "") {
+        setError((errors) => {
+          return {
+            ...errors,
+            nama_penerbit_buku: true,
+          };
+        });
+      }
+      if (users.nama_pengarang === "") {
+        setError((errors) => {
+          return {
+            ...errors,
+            nama_pengarang: true,
+          };
+        });
+      }
+      if (users.sinopsis.length === "") {
+        setError((errors) => {
+          return {
+            ...errors,
+            sinopsis: true,
+          };
+        });
+      }
+      if (
+        users.tahun_terbit_buku < 2000 ||
+        users.tahun_terbit_buku > 2022 ||
+        users.tahun_terbit_buku === ""
+      ) {
+        setError((errors) => {
+          return {
+            ...errors,
+            tahun_terbit_buku: true,
+          };
+        });
+      }
+      return;
+    }
     try {
       setIsLoading(true);
       const response = await axios.post(
-        "https://api-react-2.herokuapp.com/api/perpustakaan",
+        `https://api-react-2.herokuapp.com/api/perpustakaan`,
         users
       );
       setIsLoading(false);
@@ -50,7 +123,7 @@ function Createuser() {
 
       Toast.fire({
         icon: "success",
-        title: "Success Adding New Book",
+        title: "Success Updating The Book",
       });
       return navigate("/Admin/Books");
     } catch (err) {
@@ -69,7 +142,7 @@ function Createuser() {
 
       Toast.fire({
         icon: "error",
-        title: "Failed Adding New Book",
+        title: "Failed Updating The Book",
       });
       setIsLoading(false);
       setUser({
@@ -78,34 +151,83 @@ function Createuser() {
         nama_pengarang: "",
         nama_penerbit_buku: "",
         ketebalan_buku: "",
-        tahun_terbit_buku: 2004,
+        tahun_terbit_buku: "",
         sinopsis: "",
       });
     }
   };
+
+  const handleBlur = (e) => {
+    if (e.target.value === "")
+      setError((errors) => {
+        return {
+          ...errors,
+          [e.target.name]: true,
+        };
+      });
+    else
+      setError((errors) => {
+        return {
+          ...errors,
+          [e.target.name]: false,
+        };
+      });
+  };
+
+  const getDetailUser = async (id) => {
+    try {
+      const response = await axios.get(
+        `https://api-react-2.herokuapp.com/api/perpustakaan/${id}?kode=10102`
+      );
+      const dataUser = response.data.data;
+      console.log(dataUser);
+      setUser(() => {
+        return {
+          kode_penulis: "10102",
+          judul_buku: dataUser.judul_buku,
+          nama_pengarang: dataUser.nama_pengarang,
+          nama_penerbit_buku: dataUser.nama_penerbit_buku,
+          ketebalan_buku: dataUser.ketebalan_buku,
+          tahun_terbit_buku: 2004,
+          sinopsis: dataUser.sinopsis,
+        };
+      });
+    } catch (error) {}
+  };
+
+  React.useEffect(() => {
+    getDetailUser(id);
+  }, []);
+
   return (
     <React.Fragment>
-      <p className="text-center font-bold uppercase mt-10">User Register</p>
+      <p className="text-center font-bold uppercase mt-5">User Register</p>
       <div className="flex justify-center">
         <form
           onSubmit={handleSubmit}
-          className="mt-5 space-y-5 w-[400px] h-[510px] border border-black p-5"
+          className=" space-y-3 w-full h-[510px] p-5"
         >
-          <div className="flex flex-row space-between space-x-[45px]">
+          <p className="w-full bg-red-600 text-center text-white px-5">
+            {errorForm}
+          </p>
+          <div className="flex w-full flex-row space-x-2">
             <Input
               onChange={handleChange}
+              onBlur={handleBlur}
+              isError={error.nama_pengarang}
               value={users.nama_pengarang}
-              isError={""}
               label="Name"
               type="text"
               name="nama_pengarang"
               id="name"
               placeholder="Name"
             />
+
             <Input
+              onBlur={handleBlur}
+              isError={error.nama_penerbit_buku}
               onChange={handleChange}
               value={users.nama_penerbit_buku}
-              isError={""}
               label="Publisher"
               type="text"
               name="nama_penerbit_buku"
@@ -115,10 +237,11 @@ function Createuser() {
           </div>
           <div>
             <Input
+              onBlur={handleBlur}
+              isError={error.judul_buku}
               onChange={handleChange}
               value={users.judul_buku}
-              isError={""}
-              label="Book Thickness"
+              label="Book Title"
               type="text"
               name="judul_buku"
               id="Book Title"
@@ -129,7 +252,8 @@ function Createuser() {
             <Input
               onChange={handleChange}
               value={users.ketebalan_buku}
-              isError={""}
+              onBlur={handleBlur}
+              isError={error.ketebalan_buku}
               label="Book Thickness"
               type="text"
               name="ketebalan_buku"
@@ -141,48 +265,55 @@ function Createuser() {
             <Input
               onChange={handleChange}
               value={users.sinopsis}
-              isError={""}
+              onBlur={handleBlur}
+              isError={error.sinopsis}
               label="Sinopsis"
               type="text"
               name="sinopsis"
               id="Sinopsis"
               placeholder="Sinopsis"
             />
+            <p className="text-white text-[10px] w-full bg-red-600 text-center">
+              {errorSin}
+            </p>
           </div>
-          <div className="flex flex-row space-between space-x-[45px]">
-              <Input
-                onChange={handleChange}
-                value={users.tahun_terbit_buku}
-                isError={""}
-                label="Year Published"
-                type="number"
-                name="tahun_terbit_buku"
-                id="tahun_terbit_buku"
-                placeholder="Year Published"
-              />
-              <Input
-                onChange={handleChange}
-                value={users.kode_penulis}
-                isError={""}
-                label="Author Code"
-                type="number"
-                name="kode_penulis"
-                id="AuthorCode"
-                placeholder="AuthorCode"
-              />
+          <div className="flex flex-row space-between space-x-2">
+            <Input
+              onChange={handleChange}
+              value={users.tahun_terbit_buku}
+              onBlur={handleBlur}
+              isError={error.tahun_terbit_buku}
+              label="Year Published"
+              type="number"
+              name="tahun_terbit_buku"
+              id="tahun_terbit_buku"
+              placeholder="Year Published"
+            />
+            <Input
+              onChange={handleChange}
+              value={users.kode_penulis}
+              isError={""}
+              label="Author Code"
+              type="number"
+              name="kode_penulis"
+              id="AuthorCode"
+              placeholder="AuthorCode"
+            />
           </div>
 
           <div className="flex flex-row justify-between">
-            <NavLink
-              to="/Admin/Books"
-              className={`border border-black p-2 px-5`}
+            <Button
+              onClick={() => {
+                return navigate(`/Admin/Books`, {
+                  replace: true,
+                });
+              }}
+              title="Cancel"
             >
               Cancel
-            </NavLink>
-            <Button
-              className={`border border-black p-2 px-5`}
-              title={isLoading ? "Submitting" : "Submit"}
-            />
+            </Button>
+
+            <Button title={isLoading ? "Submitting" : "Submit"} />
           </div>
         </form>
       </div>
