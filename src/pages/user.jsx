@@ -30,20 +30,12 @@ const User = () => {
     <section>
       <div className="flex flex-row justify-between p-5">
         <h1 className="p-2 font-bold">Table User</h1>
-        <div className="flex space-x-3">
           <NavLink
             to={"/register"}
             className={`border border-black p-2 px-5 self-center`}
           >
             Add User
           </NavLink>
-          <NavLink
-            to={"/user/update/:id"}
-            className={`border border-black p-2 px-5 self-center`}
-          >
-            Update User
-          </NavLink>
-        </div>
       </div>
 
       <section className="w-screen flex justify-center">

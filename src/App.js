@@ -1,5 +1,5 @@
 import React from "react";
-import { Route, Routes, Navigate } from "react-router-dom";
+import { Route, Routes, Navigate, } from "react-router-dom";
 import User from "./pages/user";
 import Createuser from "./pages/Createuser";
 import Updateuser from "./pages/Updateuser";
