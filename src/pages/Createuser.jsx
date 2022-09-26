@@ -45,7 +45,7 @@ function Createuser() {
       users.nama_pengarang === "" ||
       users.sinopsis === "" ||
       users.tahun_terbit_buku < 2000 ||
-      users.tahun_terbit_buku > 2022
+      users.tahun_terbit_buku > 2022 || users.sinopsis.length < 10
     ) {
       setErrorForm("There's Empty Form");
       if (users.ketebalan_buku === "") {
@@ -80,7 +80,7 @@ function Createuser() {
           };
         });
       }
-      if (users.sinopsis.length === "") {
+      if (users.sinopsis === "") {
         setError((errors) => {
           return {
             ...errors,
@@ -122,8 +122,9 @@ function Createuser() {
       });
 
       Toast.fire({
+        className: "border-2 border-black",
         icon: "success",
-        title: "Success Updating The Book",
+        title: "Success Creating New Book",
       });
       return navigate("/Admin/Books");
     } catch (err) {
@@ -142,7 +143,7 @@ function Createuser() {
 
       Toast.fire({
         icon: "error",
-        title: "Failed Updating The Book",
+        title: "Failed Creating New Book",
       });
       setIsLoading(false);
       setUser({
@@ -201,7 +202,7 @@ function Createuser() {
 
   return (
     <React.Fragment>
-      <p className="text-center font-bold uppercase mt-5">User Register</p>
+      <p className="text-center font-bold uppercase mt-5">Add New Book</p>
       <div className="flex justify-center">
         <form
           onSubmit={handleSubmit}

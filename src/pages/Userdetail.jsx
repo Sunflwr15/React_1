@@ -112,7 +112,7 @@ function Createuser() {
   }, []);
   return (
     <React.Fragment>
-      <p className="text-center font-bold uppercase mt-10">User Register</p>
+      <p className="text-center font-bold uppercase mt-10">Book Detail</p>
       <div className="flex justify-center">
         <form
           onSubmit={handleSubmit}
@@ -207,12 +207,9 @@ function Createuser() {
           </div>
 
           <div className="flex flex-row justify-between">
-            <NavLink
-              to="/Admin/Books"
-              className={`border border-black p-2 px-5`}
-            >
-              Back
-            </NavLink>
+            <Button title="Back" onClick={() => {
+              return navigate("/Admin/Books", {replace: true})
+            }}></Button>
           </div>
         </form>
       </div>

@@ -33,13 +33,13 @@ function Createuser() {
   const [errorSin, setErrorSin] = React.useState("");
   const getResetUser = async (id) => {
     try {
-      setIsReset(true)
+      setIsReset(true);
       const response = await axios.get(
         `https://api-react-2.herokuapp.com/api/perpustakaan/${id}?kode=10102`
       );
       const dataUser = response.data.data;
       console.log(dataUser);
-      setIsReset(false)
+      setIsReset(false);
       setUser(() => {
         return {
           kode_penulis: "10102",
@@ -143,7 +143,7 @@ function Createuser() {
 
       Toast.fire({
         icon: "success",
-        title: "Success Adding New Book",
+        title: "Success Updating The Book",
       });
       return navigate("/Admin/Books");
     } catch (err) {
@@ -162,7 +162,7 @@ function Createuser() {
 
       Toast.fire({
         icon: "error",
-        title: "Failed Adding New Book",
+        title: "Failed Updating The Book",
       });
       setIsLoading(false);
       setUser({
@@ -220,7 +220,7 @@ function Createuser() {
 
   return (
     <React.Fragment>
-      <p className="text-center font-bold uppercase">User Register</p>
+      <p className="text-center font-bold uppercase">Update Book</p>
       <div className="flex justify-center flex-col">
         <form
           onSubmit={handleSubmit}
@@ -328,11 +328,8 @@ function Createuser() {
                 });
               }}
               title="Cancel"
-            >
-            </Button>
-            <Button
-              title={isLoading ? "Submitting" : "Submit"}
-            />
+            ></Button>
+            <Button title={isLoading ? "Submitting" : "Submit"} />
           </div>
         </form>
         <div>
