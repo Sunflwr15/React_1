@@ -1,11 +1,13 @@
 import React from "react";
-import Input from "../module/input";
-import Button from "./components/Button";
-import Select from "../module/select";
+import Input from "../../module/input";
+import Button from "../components/Button";
+import Select from "../../module/select";
 import axios from "axios";
-import { NavLink, useNavigate } from "react-router-dom";
+import { NavLink, useNavigate, useParams } from "react-router-dom";
+import { detailAllUser, putAllUser } from "../../API/user";
 
 function Createuser() {
+  let { id } = useParams();
   const navigate = useNavigate();
   const [isLoading, setIsLoading] = React.useState(false);
   const [users, setUser] = React.useState({
@@ -29,12 +31,9 @@ function Createuser() {
     console.log(users);
     try {
       setIsLoading(true);
-      const response = await axios.post(
-        "https://belajar-react.smkmadinatulquran.sch.id/api/users/create",
-        users
-      );
+      const response = await putAllUser(id, users);
       setIsLoading(false);
-      alert("Success Creating User")
+      alert("Success Creating User");
       return navigate("/users");
     } catch (err) {
       console.log(err);
@@ -45,40 +44,60 @@ function Createuser() {
         email: "",
         name: "",
         jenis_kelamin: "",
-        password: "",
-        password_confirmation: "",
       });
     }
   };
+
+  const getDetailUser = async () => {
+    try {
+      const response = await detailAllUser(id, users);
+      const dataUser = response.data.data;
+      setUser(() => {
+        return {
+          username: dataUser.username,
+          email: dataUser.email,
+          name: dataUser.name,
+          jenis_kelamin: dataUser.jenis_kelamin,
+        };
+      });
+    } catch (error) {}
+  };
+  React.useEffect(() => {
+    getDetailUser(id);
+  });
   return (
     <React.Fragment>
-      <p className="text-center font-bold uppercase mt-10">User Register</p>
-      <div className="flex justify-center">
+      <div className="flex justify-center place-items-center h-screen">
         <form
           onSubmit={handleSubmit}
-          className="mt-5 space-y-5 w-[400px] h-[510px] border border-black p-5"
+          className="space-y-5 bg-white w-fit h-[510px] border border-black p-5 shadow-lg"
         >
-          <div className="flex space-x-2 w-full space-between">
-            <Input
-              onChange={handleChange}
-              value={users.name}
-              isError={""}
-              label="Name"
-              type="text"
-              name="name"
-              id="name"
-              placeholder="Name"
-            />
-            <Input
-              onChange={handleChange}
-              value={users.username}
-              isError={""}
-              label="Username"
-              type="text"
-              name="username"
-              id="username"
-              placeholder="Username"
-            />
+      <p className="text-center font-bold uppercase">User {id}</p>
+          <div className="flex space-x-2 space-between">
+            <div className=" w-[50%]">
+              <Input
+                onChange={handleChange}
+                value={users.name}
+                isError={""}
+                label="Name"
+                type="text"
+                name="name"
+                id="name"
+                placeholder="Name"
+              />
+            </div>
+            <div className="w-[50%]">
+              <Input
+                onChange={handleChange}
+                value={users.username}
+                isError={""}
+                label="Username"
+                type="text"
+                name="username"
+                id="username"
+                placeholder="Username"
+              />
+            </div>
           </div>
           <div>
             <Input
@@ -107,30 +126,6 @@ function Createuser() {
               <option value={"perempuan"}>Perempuan</option>
             </Select>
           </div>
-          <div>
-            <Input
-              onChange={handleChange}
-              value={users.password}
-              isError={""}
-              label="Password"
-              type="password"
-              name="password"
-              id="password"
-              placeholder="Password"
-            />
-          </div>
-          <div>
-            <Input
-              onChange={handleChange}
-              value={users.password_confirmation}
-              isError={""}
-              label="Confirm Password"
-              type="password"
-              name="password_confirmation"
-              id="confirmPassword"
-              placeholder="Confirm Password"
-            />
-          </div>
 
           <div className="flex flex-row justify-between">
             <NavLink to="/user" className={`border border-black p-2 px-5`}>
@@ -138,7 +133,7 @@ function Createuser() {
             </NavLink>
             <Button
               className={`border border-black p-2 px-5`}
-              title={isLoading ? "Submitting" : "Submit"}
+              title={isLoading ? "Updatting" : "Update"}
             />
           </div>
         </form>

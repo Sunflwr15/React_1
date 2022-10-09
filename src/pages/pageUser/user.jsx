@@ -1,9 +1,11 @@
 import React from "react";
 import axios from "axios";
-import Button from "./components/Button";
+import Button from "../components/Button";
 import Swal from "sweetalert2";
 import { Navigate, NavLink, useNavigate } from "react-router-dom";
 import Skeleton from "react-loading-skeleton";
+import { deleteAllUser, getAllUser } from "../../API/user";
+import Cookies from "js-cookie";
 
 const User = () => {
   const [users, setUsers] = React.useState([]);
@@ -12,13 +14,10 @@ const User = () => {
 
   const getUserHandle = async () => {
     try {
-      const response = await axios.get(
-        `https://belajar-react.smkmadinatulquran.sch.id/api/users/100`
-      );
+      const response = await getAllUser(page);
       console.log("Response =>", response.data);
 
       setUsers(response.data.data);
-      setPage(response.data.page);
     } catch (err) {
       console.log("tes", err);
     }
@@ -42,9 +41,7 @@ const User = () => {
       if (result.isConfirmed) {
         try {
           setIsFetch(true);
-          await axios.delete(
-            `https://belajar-react.smkmadinatulquran.sch.id/api/users/hapus/${id}`
-          );
+          await deleteAllUser(id);
           console.log("TES");
           Swal.fire("Deleted!", "Your file has been deleted.", "success");
           getUserHandle();
@@ -63,49 +60,75 @@ const User = () => {
   return (
     <section>
       <div className="flex flex-row justify-between p-5">
-        <h1 className="p-2 font-bold">Table User</h1>
-        <NavLink
-          to={"/user/register"}
-          className={`border border-black p-2 px-5 self-center`}
-        >
-          Add User
-        </NavLink>
+        <h1 className="p-2 font-bold text-center">Table User</h1>
+        <div className="">
+          <Button
+            onClick={() => {
+              return navigate("/user/register", { replace: true });
+              
+            }}
+            title="Create User"
+            add="w-fit"
+
+          >
+            Add User
+          </Button>
+          <Button
+            title={"Log Out"}
+            onClick={() => {
+              Cookies.remove("token");
+              return navigate("/login", { replace: true });
+            }}
+            add="w-fit bg-red-600 text-white"
+          >
+            Add User
+          </Button>
+        </div>
       </div>
 
-      <section className="w-screen flex justify-center">
-        <table className="table-auto w-[1100px]">
+      <section className="w-screen flex justify-center ">
+        <table className="table-auto w-[90%] rounded-xl">
           <thead>
-            <tr className="border border-black">
-              <th className="py-3">No</th>
-              <th>ID</th>
-              <th>Email</th>
-              <th>Name</th>
-              <th>Username</th>
-              <th>Gender</th>
-              <th>Detail</th>
+            <tr className="border border-black bg-black text-white text-justify font-medium grid grid-cols-12 place-items-center">
+              <th className="py-5 col-span-1">No</th>
+              <th className="col-span-1">ID</th>
+              <th className="col-span-2">Email</th>
+              <th className="col-span-2">Name</th>
+              <th className="col-span-2">Username</th>
+              <th className="col-span-2">Gender</th>
+              <th className="col-span-2">Detail</th>
             </tr>
           </thead>
           <tbody>
             {isFetch ? (
               <tr>
                 <td colSpan={8}>
-                  <Skeleton count={8} className="border border-black" height={50} borderRadius={0} duration={5} />{" "}
+                  <Skeleton
+                    count={6}
+                    className="border border-black"
+                    height={70}
+                    borderRadius={0}
+                    duration={5}
+                  />{" "}
                 </td>
               </tr>
             ) : (
               users.map((item, index) => {
                 return (
-                  <tr key={index} className="border border-black text-center ">
-                    <td className="p-3">{index + 1}</td>
-                    <td>{item.id}</td>
-                    <td>{item.email}</td>
-                    <td>{item.name}</td>
-                    <td>{item.username}</td>
-                    <td>
+                  <tr
+                    key={index}
+                    className="text-start bg-white border-y-8 border-[#F8F8FF] grid grid-cols-12 place-items-center"
+                  >
+                    <td className="p-3 text-center col-span-1">{index + 1}</td>
+                    <td className="text-center col-span-1">{item.id}</td>
+                    <td className="col-span-2">{item.email}</td>
+                    <td className="col-span-2">{item.name}</td>
+                    <td className="col-span-2">{item.username}</td>
+                    <td className="col-span-2">
                       {item.jenis_kelamin}
                       {users.id}
                     </td>
-                    <td>
+                    <td className="text-center col-span-2">
                       <Button
                         title="Edit"
                         onClick={() => {
@@ -129,22 +152,6 @@ const User = () => {
           </tbody>
         </table>
       </section>
-
-      <p className="text-center m-3">Current Page {page}</p>
-      <div className="flex flex-row space-x-5 w-screen justify-center m-2">
-        <Button
-          title="Previous"
-          onClick={() => {
-            setPage(-1);
-          }}
-        />
-        <Button
-          title="Next"
-          onClick={() => {
-            setPage(+1);
-          }}
-        />
-      </div>
     </section>
   );
 };

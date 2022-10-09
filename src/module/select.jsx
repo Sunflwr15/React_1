@@ -8,7 +8,7 @@ function Select({ children, label,...props }) {
         {...props}
         name="jenis_kelamin"
         id=""
-        className="p-3 border-b px-0 w-full border-black"
+        className="p-3 border-b px-0 w-full border-black bg-transparent"
       >
         {children}
       </select>
