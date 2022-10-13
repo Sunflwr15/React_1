@@ -67,7 +67,7 @@ function ArtikelCreate() {
 
         Toast.fire({
           icon: "success",
-          title: "Success creating article",
+          title: response.status.message,
         });
       }
 

@@ -118,7 +118,7 @@ function ArtikelDetail() {
             <div>
               <div className="flex flex-row justify-between">
                 <p className="uppercase font-bold">{Art.judul}</p>
-                <p className="uppercase font-bold text-gray-400">{Art.slug}</p>
+                <p className="uppercase text-gray-400">{Art.slug}</p>
               </div>{" "}
               <p className="uppercase text-gray-400">{Art.created_at}</p>
             </div>

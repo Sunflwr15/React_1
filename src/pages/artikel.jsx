@@ -58,33 +58,32 @@ function Artikel() {
         </div>
       ) : (
         <div>
-          <div className="grid grid-cols-2 gap-5 p-5">
+          <div className="grid grid-cols-4 gap-5 p-5">
             {Art.map((item, index) => {
               return (
-                <div className=" bg-white">
-                  <div className="grid grid-cols-3 border-b w-full h-[200px] border border-black p-5">
-                    <div className="space-y-3 h-full flex justify-between flex-col col-span-2">
+                <div className="rounded-md">
+                  <div className="border-b w-full h-[350px] border border-black p-5 bg-white">
+                    <div className="space-y-5 h-full flex flex-col w-full">
                       <div className="flex flex-col">
                         {" "}
-                        <p className="text-1xl uppercase font-bold">
-                          {item.judul}
-                        </p>
-                        <p className="text-1xl uppercase text-gray-500">
-                          {item.slug}
-                        </p>
-                      </div>
-                      <div className="w-full h-[50px] overflow-hidden">
-                        <p>{item.artikel}</p>
-                      </div>{" "}
+                        <img
+                          src={item.thumbnail}
+                          alt="thumbnail"
+                          className="rounded-xl w-full h-44 object-cover"
+                        />
+                        <div className="flex flex-col">
+                          <p className="text-1xl uppercase font-bold">
+                            {item.judul}
+                          </p>
                       <p className="text-1xl uppercase text-gray-500">
                         {item.created_at}
                       </p>
+                        </div>
+                      </div>
+                      <div className="w-full h-[100px] overflow-auto">
+                        <p>{item.artikel}</p>
+                      </div>{" "}
                     </div>
-                    <img
-                      src={item.thumbnail}
-                      alt="thumbnail"
-                      className="rounded-xl w-52 h-44 object-cover"
-                    />
                   </div>
                   <div className="grid grid-cols-3">
                     <Button
@@ -103,6 +102,7 @@ function Artikel() {
                     ></Button>
                     <Button
                       title={isDelet ? "Deleting" : "Delete"}
+                      add="bg-red-600 text-white"
                       onClick={async () => {
                         const response = await articleDelete(item.id);
                         console.log("response", response);
