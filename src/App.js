@@ -1,88 +1,50 @@
 import React from "react";
-import { Route, Routes, Navigate, useNavigate } from "react-router-dom";
-import User from "./pages/pageUser/user";
-import Createuser from "./pages/pageUser/Createuser";
-import Updateuser from "./pages/pageUser/Updateuser";
-import Userdetail from "./pages/pageUser/Userdetail";
-import LoginScreen from "./pages/auth/loginScreen";
-import ProtectRoutes from "./pages/routes/protectRoutes";
-import Artikel from "./pages/artikel";
-import Button from "./pages/components/Button";
-import Cookies from "js-cookie";
-import ArtikelUpdate from "./pages/artikelUpdate";
-import ArtikelCreate from "./pages/artikelCreate";
-import ArtikelDetail from "./pages/artikelDetail";
+import { Routes, Route, Navigate } from "react-router-dom";
+import { Artikel, CreateArtikel, DetailArtikel, UpdateArtikel } from "./page";
+import { Input, Select } from "./component";
+import ProtectRoute from "./routers/protectRoute";
+import Login from "./page/auth/login";
+
 function App() {
-  const navigate = useNavigate()
   return (
     <React.Fragment>
+
+
       <Routes>
-        <Route
-          path="/"
-          element={
-            <ProtectRoutes>
-              <Artikel />
-            </ProtectRoutes>
-          }
-        />
-        <Route path="/login" element={<LoginScreen />} />
+        <Route path="/login" element={<Login />} />
         <Route
           path="/artikel"
           element={
-            <ProtectRoutes>
+            <ProtectRoute>
               <Artikel />
-            </ProtectRoutes>
+            </ProtectRoute>
           }
         />
         <Route
           path="/artikel/create"
           element={
-            <ProtectRoutes>
-              <ArtikelCreate />
-            </ProtectRoutes>
+            <ProtectRoute>
+              <CreateArtikel />
+            </ProtectRoute>
           }
         />
         <Route
-          path="/artikel/update/:slug/:id"
+          path="/artikel/update/:id/:slug"
           element={
-            <ProtectRoutes>
-              <ArtikelUpdate />
-            </ProtectRoutes>
+            <ProtectRoute>
+              <UpdateArtikel />
+            </ProtectRoute>
           }
         />
         <Route
-          path="/artikel/update/:slug"
+          path="/artikel/detail/:slug"
           element={
-            <ProtectRoutes>
-              <ArtikelDetail />
-            </ProtectRoutes>
+            <ProtectRoute>
+              <DetailArtikel />
+            </ProtectRoute>
           }
         />
-        {/* <Route
-          path="/user/:id/detail"
-          element={
-            <ProtectRoutes>
-              <Userdetail />
-            </ProtectRoutes>
-          }
-        />
-        <Route
-          path="/user/register"
-          element={
-            <ProtectRoutes>
-              <Createuser />
-            </ProtectRoutes>
-          }
-        />
-        <Route
-          path="/user/update/:id"
-          element={
-            <ProtectRoutes>
-              <Updateuser />
-            </ProtectRoutes>
-          }
-        /> */}
-        <Route path="*" element={<Navigate to="/" replace={true} />} />
+        <Route path="*" element={<Navigate to="/login" replace={true} />} />
       </Routes>
     </React.Fragment>
   );
