@@ -29,7 +29,7 @@ export default function Button({ title, disabled, edit, color = "red", ...props 
     <React.Fragment>
       <button
         {...props}
-        className={`h-fit border-2 border-neutral-800 p-3 hover:bg-neutral-800 hover:text-white transition-all ease-in-out ${edit}`}
+        className={`${edit} button border border-green-500 rounded px-3 py-1 hover:bg-green-500 transition-all ease-in-out hover:text-white hover:shadow-lg`}
         style={{ opacity: disabled ? 0.5 : 1 }}
       >
         {title}

@@ -1,7 +1,12 @@
 import React from "react";
 import axios from "axios";
 import { useNavigate, NavLink } from "react-router-dom";
-import { deleteArtikel, getAllArtikel } from "../../API/artikel_API/artikel";
+import {
+  deleteArtikel,
+  getAllArtikel,
+  getDetailArtikel,
+  updateArtikel,
+} from "../../API/artikel_API/artikel";
 import Skeleton from "react-loading-skeleton";
 import { Button } from "../../component";
 import Cookies from "js-cookie";
@@ -10,6 +15,7 @@ import Swal from "sweetalert2";
 const Artikel = () => {
   const [listArtikel, setListArtikel] = React.useState([]);
   const [fetchArtikel, setFetchArtikel] = React.useState(false);
+  const [isLoading, setIsLoading] = React.useState(false);
   const navigate = useNavigate();
 
   const getArtikelHandle = async () => {
@@ -25,22 +31,29 @@ const Artikel = () => {
     }
   };
 
-  React.useEffect(() => {
-    getArtikelHandle();
-  }, []);
+  // React.useEffect(() => {
+  //   getArtikelHandle();
+  // }, []);
 
   console.log("artikel =>", listArtikel);
+
   return (
-    <section className="grid grid-rows-7 w-screen h-screen p-3">
-      <div className="flex justify-between items-center">
+    <section>
+      <div className="px-5 flex justify-between">
         <NavLink
           to={"/artikel/create"}
-          className="h-fit border-2 border-neutral-800 p-3"
+          className="px-6 text-center py-2 border border-green-500 rounded my-5 hover:bg-green-500 hover:text-white transition-all ease-in-out hover:shadow-lg hover:shadow-green-400"
         >
           Buat Artikel
         </NavLink>
+        <NavLink
+          to={"/redux"}
+          className="px-6 text-center py-2 border border-green-500 rounded my-5 hover:bg-green-500 hover:text-white transition-all ease-in-out hover:shadow-lg hover:shadow-green-400"
+        >
+          Redux
+        </NavLink>
         <Button
-          edit="h-fit border-2 border-neutral-800 p-3"
+          edit="h-[40px] my-5 py-1 border-red-500 hover:border-red-500 hover:bg-red-500 hover:shadow-red-400"
           title={"Logout"}
           onClick={() => {
             Cookies.remove("myapps_token");
@@ -49,34 +62,41 @@ const Artikel = () => {
         />
       </div>
 
-      {fetchArtikel ? (
-        <div className="h-full flex justify-center row-span-6">
-          <p className="animate-pulse self-center">Loading...</p>
-        </div>
-      ) : (
-        <div className="grid grid-cols-2 gap-3 h-full overflow-auto row-span-6">
-          {listArtikel?.map((artikel, index) => {
+      <div className="grid grid-cols-1">
+        {fetchArtikel ? (
+          <tr key="">
+            <td>
+              <Skeleton baseColor="red" highlightColor="blue" count={1} />
+            </td>
+          </tr>
+        ) : (
+          listArtikel?.map((artikel, index) => {
             return (
-              <div className="border-2 border-neutral-800 grid grid-cols-4 ">
-                <div className="col-span-3 flex flex-row space-x-3">
-                  <img
-                    src={artikel.thumbnail}
-                    alt=""
-                    className="w-[150px] h-[150px] bg-cover"
-                  />
-                  <div className="space-y-2">
-                    <p className="font-bold">{artikel.judul}</p>
-                    <div className="h-[120px] overflow-auto">
-                      <p>{artikel.artikel}</p>
-                    </div>{" "}
+              <div className="border rounded border-green-500 flex flex-col h-[300px] justify-between p-5 mb-2 mx-2">
+                <div className="flex justify-between">
+                  <h1 className="truncate font8bit w-[130px]">
+                    {" "}
+                    No. {index + 1}
+                  </h1>
+
+                  <div className="flex flex-col justify-center items-center">
+                    <h1>{artikel.judul}</h1>
+                    <h1>{artikel.slug}</h1>
                   </div>
+                  <h1 className="truncate font8bit text-left">
+                    Id. {artikel.id}
+                  </h1>
                 </div>
-                <div className="flex flex-col h-full">
+
+                <div className="flex justify-around items-center">
                   <Button
                     title={"Hapus"}
-                    edit={"h-full"}
+                    edit={
+                      "h-[40px] hover:bg-red-500 hover:border-red-500 hover:shadow-red-400 border-red-500 px-7"
+                    }
                     onClick={async () => {
                       const response = await deleteArtikel(artikel.id);
+
                       try {
                         if (response.data.status === "Fail") {
                           const Toast = Swal.mixin({
@@ -122,8 +142,10 @@ const Artikel = () => {
 
                           Toast.fire({
                             icon: "success",
-                            title: "Artikel berhasil di Update!",
+                            title: "Artikel berhasil di Hapus!",
                           });
+
+                          getArtikelHandle();
                         }
                       } catch (err) {
                         console.log("delete err =>", err);
@@ -131,29 +153,53 @@ const Artikel = () => {
                       }
                     }}
                   />
-
+                  <img
+                    src={artikel.thumbnail}
+                    alt=""
+                    className="w-[150px] h-[150px]"
+                  />
                   <Button
                     title={"Edit"}
-                    edit={"h-full"}
+                    edit={
+                      "h-[40px] hover:shadow-blue-400 border-blue-400 hover:border-blue-400 hover:bg-blue-400 px-7"
+                    }
                     onClick={() => {
                       return navigate(
                         `/artikel/update/${artikel.id}/${artikel.slug}`
                       );
                     }}
                   />
-                  <Button
-                    title={"Detail"}
-                    edit={"h-full"}
-                    onClick={() => {
-                      return navigate(`/artikel/detail/${artikel.slug}`);
-                    }}
-                  />
+                </div>
+
+                <div className="flex justify-between">
+                  <div className="flex flex-col">
+                    <h1 className="italic">Created At</h1>
+                    <h1 className="w-[180px] truncate font8bit">
+                      {artikel.created_at}
+                    </h1>
+                  </div>
+                  <div className="flex items-center italic">
+                    <Button
+                      title={"Detail"}
+                      edit={"h-[40px] hover:shadow-green-400 px-7"}
+                      onClick={() => {
+                        return navigate(`/artikel/detail/${artikel.slug}`);
+                      }}
+                    />
+                  </div>
+
+                  <div className="flex flex-col">
+                    <h1 className="italic">Updated At</h1>
+                    <h1 className="w-[180px] truncate font8bit">
+                      {artikel.updated_at}
+                    </h1>
+                  </div>
                 </div>
               </div>
             );
-          })}
-        </div>
-      )}
+          })
+        )}
+      </div>
     </section>
   );
 };

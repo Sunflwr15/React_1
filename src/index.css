@@ -10,25 +10,6 @@
 
 body {
   margin: 0;
-  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen',
-    'Ubuntu', 'Cantarell', 'Fira Sans', 'Droid Sans', 'Helvetica Neue',
-    sans-serif;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
-}
-
-code {
-  font-family: source-code-pro, Menlo, Monaco, Consolas, 'Courier New',
-    monospace;
-}
-
-.font8bit {
-  font-family: 'Kongtext', sans-serif;         
-}
-.noto {
-  font-family: 'Noto Sans Balinese', sans-serif;
-}
-
-.form {
-  box-shadow: var(--chakra-shadows-buttonRaised);
 }
