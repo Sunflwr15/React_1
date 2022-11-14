@@ -1,11 +1,13 @@
 import React from "react";
+import { Route, Routes } from "react-router-dom";
+import Main from "./pages/main";
 
 function App() {
   return (
     <React.Fragment>
-        <h1 className="font-bold underline m-10 font-mono text-violet-600">
-          Hello world!
-        </h1>
+      <Routes>
+        <Route path="/" element={<Main />} />
+      </Routes>
     </React.Fragment>
   );
 }
